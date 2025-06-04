@@ -8,7 +8,8 @@ create table vehicules (
     kilometrage int,
     carburant varchar(30),
     puissance int,
-    taille_pneu varchar(20)
+    taille_pneu varchar(20),
+    image bytea
 );
 
 -- table : entretien
