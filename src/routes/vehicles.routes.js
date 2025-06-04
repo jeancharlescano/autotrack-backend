@@ -1,8 +1,20 @@
 import { Router } from "express";
 import { createVehicles } from "../controller/vehicles.controller.js";
+import {get_cars,
+  get_entretien,
+  list_piece,
+  createVehicles,
+  create_entretien,
+  create_piece,
+} from "../controller/vehicles.controller.js";
+const router = Router();
 
-const router = Router()
+router.post("/", createVehicles);
 
-router.post("/", createVehicles)
-
-export default router
+router.get("/list", get_cars);
+router.get("/ent", get_entretien);
+router.get("/list_piece", list_piece);
+router.post("/create", createVehicles);
+router.post("/create_ent", create_entretien);
+router.post("/create_piece", create_piece);
+export default router;
