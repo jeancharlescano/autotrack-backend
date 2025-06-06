@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { createVehicles } from "../controller/vehicles.controller.js";
 import {get_cars,
   get_entretien,
   list_piece,
@@ -9,7 +8,7 @@ import {get_cars,
 } from "../controller/vehicles.controller.js";
 const router = Router();
 
-router.post("/", createVehicles);
+// router.post("/", createVehicles);
 
 router.get("/list", get_cars);
 router.get("/ent", get_entretien);

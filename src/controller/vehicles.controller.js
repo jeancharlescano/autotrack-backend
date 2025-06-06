@@ -11,11 +11,10 @@ export const createVehicles = async (req, res) => {
       kilometrage,
       carburant,
       puissance,
-      taille_pneu,
+      taillePneu,
       image,
     } = req.body;
-    console.log("create ~ req.body:", req.body);
-    const car = await pool.query(
+    await pool.query(
       "insert into vehicules(immatriculation , marque,modele,annee,motorisation,kilometrage,carburant,puissance,taille_pneu,image)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
       [
         immatriculation,
@@ -26,7 +25,7 @@ export const createVehicles = async (req, res) => {
         kilometrage,
         carburant,
         puissance,
-        taille_pneu,
+        taillePneu,
         image,
       ]
     );
@@ -38,11 +37,16 @@ export const createVehicles = async (req, res) => {
   }
 };
 
-export default async function get_cars(req, res, next) {
+export async function get_cars(req, res, next) {
   try {
     const result = await pool.query("select * from vehicules ");
 
-    res.json(result.rows);
+    for (const vehicleRow of result.rows) {
+      vehicleRow.image=`data:image/*;base64,${vehicleRow.image}`
+    }
+
+
+    res.send(result.rows);
   } catch (error) {
     console.log("🚀 ~ getTest ~ error:", error);
   }
