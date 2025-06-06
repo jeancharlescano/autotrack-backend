@@ -14,8 +14,7 @@ export const createVehicles = async (req, res) => {
       taille_pneu,
       image,
     } = req.body;
-    console.log("create ~ req.body:", req.body);
-    const car = await pool.query(
+    await pool.query(
       "insert into vehicules(immatriculation , marque,modele,annee,motorisation,kilometrage,carburant,puissance,taille_pneu,image)values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
       [
         immatriculation,
@@ -38,7 +37,7 @@ export const createVehicles = async (req, res) => {
   }
 };
 
-export default async function get_cars(req, res, next) {
+export async function getCars(req, res, next) {
   try {
     const result = await pool.query("select * from vehicules ");
 
@@ -48,7 +47,7 @@ export default async function get_cars(req, res, next) {
   }
 }
 
-export async function get_entretien(req, res, next) {
+export async function getEntretien(req, res, next) {
   try {
     const { immat } = req.body;
     const result = await pool.query(
@@ -62,7 +61,7 @@ export async function get_entretien(req, res, next) {
   }
 }
 
-export async function list_piece(req, res, next) {
+export async function listPiece(req, res, next) {
   try {
     const result = await pool.query("select * from piece");
     res.json(result.rows);
@@ -71,7 +70,7 @@ export async function list_piece(req, res, next) {
   }
 }
 
-export const create_entretien = async (req, res) => {
+export const createEntretien = async (req, res) => {
   try {
     const { titre, prix, kilometrage, date, facture, immatriculation } =
       req.body;
@@ -89,7 +88,7 @@ export const create_entretien = async (req, res) => {
   }
 };
 
-export const create_piece = async (req, res) => {
+export const createPiece = async (req, res) => {
   try {
     const { nom } = req.body;
 
