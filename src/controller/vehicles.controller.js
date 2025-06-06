@@ -11,7 +11,7 @@ export const createVehicles = async (req, res) => {
       kilometrage,
       carburant,
       puissance,
-      taille_pneu,
+      taillePneu,
       image,
     } = req.body;
     await pool.query(
@@ -25,7 +25,7 @@ export const createVehicles = async (req, res) => {
         kilometrage,
         carburant,
         puissance,
-        taille_pneu,
+        taillePneu,
         image,
       ]
     );
@@ -41,7 +41,12 @@ export async function getCars(req, res, next) {
   try {
     const result = await pool.query("select * from vehicules ");
 
-    res.json(result.rows);
+    for (const vehicleRow of result.rows) {
+      vehicleRow.image=`data:image/*;base64,${vehicleRow.image}`
+    }
+
+
+    res.send(result.rows);
   } catch (error) {
     console.log("🚀 ~ getTest ~ error:", error);
   }
