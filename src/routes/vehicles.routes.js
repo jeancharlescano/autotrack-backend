@@ -1,19 +1,20 @@
 import { Router } from "express";
-import {get_cars,
-  get_entretien,
-  list_piece,
+import {
+  getCars,
+  getEntretien,
+  listPiece,
   createVehicles,
-  create_entretien,
-  create_piece,
+  createEntretien,
+  createPiece,
 } from "../controller/vehicles.controller.js";
 const router = Router();
 
 // router.post("/", createVehicles);
 
-router.get("/list", get_cars);
-router.get("/ent", get_entretien);
-router.get("/list_piece", list_piece);
+router.get("/list", getCars);
+router.get("/ent", getEntretien);
+router.get("/list_piece", listPiece);
 router.post("/create", createVehicles);
-router.post("/create_ent", create_entretien);
-router.post("/create_piece", create_piece);
+router.post("/create_ent", createEntretien);
+router.post("/create_piece", createPiece);
 export default router;
