@@ -1,3 +1,4 @@
+import { pool } from "../config/database.config.js";
 
 export const createEntretien = async (req, res) => {
     try {
