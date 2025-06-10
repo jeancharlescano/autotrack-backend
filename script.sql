@@ -19,7 +19,6 @@ create table entretien (
     prix numeric(10, 2),
     kilometrage int,
     date date,
-    facture bytea,
     vehicule_immat varchar(20),
     foreign key (vehicule_immat) references vehicules(immatriculation) on delete cascade
 );
@@ -38,4 +37,13 @@ create table changer (
     primary key (entretien_id, piece_id),
     foreign key (entretien_id) references entretien(id) on delete cascade,
     foreign key (piece_id) references piece(id) on delete cascade
+);
+
+-- table :factures (liaison entre entretien et piece)
+create table factures (
+    id serial primary key,
+    entretien_id int,
+    facture bytea   ,
+    primary key  id,
+    foreign key (entretien_id) references entretien(id) on delete cascade
 );
