@@ -40,21 +40,47 @@ export const createVehicles = async (req, res) => {
 export async function getCars(req, res, next) {
   try {
     const result = await pool.query("select * from vehicules ");
+    const vehiclesWithImages = await Promise.all(
+      result.rows.map(async (vehicle) => {
+        if (!vehicle.image) return vehicle;
 
-    for (const vehicleRow of result.rows) {
-      vehicleRow.image=`data:image/*;base64,${vehicleRow.image}`
-    }
+        try {
+          const imageResponse = await fetch(
+            `http://localhost:3200/preview/image/${vehicle.image}`
+          );
 
+          if (!imageResponse.ok) {
+            console.error(`Image non trouvée pour ${vehicle.image}`);
+            return { ...vehicle, image: null };
+          }
 
-    res.send(result.rows);
+          const imageBuffer = await imageResponse.arrayBuffer();
+          const base64Image = Buffer.from(imageBuffer).toString("base64");
+
+          return {
+            ...vehicle,
+            image: `data:image/jpeg;base64,${base64Image}`,
+          };
+        } catch (error) {
+          console.error(`Erreur image ${vehicle.image}:`, error);
+          return { ...vehicle, image: null };
+        }
+      })
+    );
+
+    res.status(200).json(vehiclesWithImages);
   } catch (error) {
-    console.log("🚀 ~ getTest ~ error:", error);
+    console.error("Erreur getCars:", error);
+    res.status(500).json({ error: "Erreur serveur" });
   }
 }
 
+//     for  (const vehicleRow of result.rows) {
+//       const nom_image = vehicleRow.image;
+//       vehicleRow.image = await fetch(`http://localhost:3200/preview/image/${nom_image}`);}
 
-
-
-
-
-
+//     res.send(result.rows);
+//   } catch (error) {
+//     console.log("🚀 ~ getTest ~ error:", error);
+//   }
+// }
