@@ -9,7 +9,7 @@ create table vehicules (
     carburant varchar(30),
     puissance int,
     taille_pneu varchar(20),
-    image bytea
+    image varchar(100)
 );
 
 -- table : entretien
@@ -19,7 +19,7 @@ create table entretien (
     prix numeric(10, 2),
     kilometrage int,
     date date,
-    facture bytea,
+    facture jsonb,
     vehicule_immat varchar(20),
     foreign key (vehicule_immat) references vehicules(immatriculation) on delete cascade
 );
